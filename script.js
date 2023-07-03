@@ -1,6 +1,7 @@
 const itemForm = document.getElementById('item-form');
 const itemInput = document.getElementById('item-input');
 const itemList = document.getElementById('item-list');
+const clearBtn = document.getElementById('clear')
 
 function addItem(e) {
     e.preventDefault();
@@ -42,15 +43,26 @@ function createIcon(classes) {
 }
 
 
+// making the icon button functional
 
+function removeItem (e) {
+    if (e.target.parentElement.classList.contains('remove-item')) {
+        e.target.parentElement.parentElement.remove();
+    }
+  
+}
 
+//Making the clear all btn functional
 
-
-
-
+function clearItems(e) {
+//    itemList.innerHTML = '' // this is a method that can do it but it's not so advisable
+    while (itemList.firstChild) {
+        itemList.removeChild(itemList.firstChild);
+    }
+}
 
 
 //Event listeners
 itemForm.addEventListener('submit', addItem);
-itemInput.addEventListener();
-itemList.addEventListener();
+itemList.addEventListener('click',removeItem);
+clearBtn.addEventListener('click',clearItems);
