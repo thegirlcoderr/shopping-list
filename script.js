@@ -150,6 +150,8 @@ const items = itemList.querySelectorAll('li');
     }
 }
 
+function init() {
+    
 
 //Event listeners
 itemForm.addEventListener('submit', onAddItemSubmit);
@@ -158,4 +160,8 @@ clearBtn.addEventListener('click', clearItems);
 itemFilter.addEventListener('input', filterItems);
 document.addEventListener('DOMContentLoaded', displayItems);
 
-checkUI()
+    checkUI();
+
+}
+
+init()
