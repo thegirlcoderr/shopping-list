@@ -14,9 +14,6 @@ function displayItems() {
 
 
 
-
-
-
 function onAddItemSubmit(e) {
     e.preventDefault();
 
@@ -55,6 +52,8 @@ function addItemToDom(item) {
     itemList.appendChild(li);
 }
 
+
+
 function createButton(classes) {
     const button = document.createElement('button')
     button.className = classes;
@@ -66,11 +65,14 @@ function createButton(classes) {
     
 }
 
+
 function createIcon(classes) {
     const icon = document.createElement('i')
     icon.className = classes;
     return icon;
 }
+
+
 
 function addItemToStorage(item) {
     let itemsFromStorage;
@@ -100,27 +102,48 @@ function getItemFromStorage() {
     return itemsFromStorage
 }
 
-// making the icon button functional
-function removeItem(e) {
-    
+
+
+function onClickItem(e) {
     if (e.target.parentElement.classList.contains('.remove-item')) {
-      if (confirm('Are you sure?') ) {
-          e.target.parentElement.parentElement.remove();   
-        checkUI()  
-      }
-    
-  }
+        removeItem(e.target.parentElement.parentElement);
+    }  
 }
 
-//Making the clear all btn functional
+
+function removeItem(item) {
+    if (confirm('Are you sure?')) {
+    //remove from DOM
+    item.remove();
+
+    //remove from storage
+        removeItemFromStorage(item.textContent);
+
+
+
+    checkUI();
+    } 
+    
+}
+
+function removeItemFromStorage(item){
+    let itemsFromStorage = getItemFromStorage();
+
+ //Filter out item to be removed
+    itemsFromStorage = itemsFromStorage.filter((i) => i !== item);
+
+    //Reset to local storage
+    localStorage.setItem('items', JSON.stringify(itemsFromStorage));
+ }
 
 function clearItems(e) {
 //    itemList.innerHTML = '' // this is a method that can do it but it's not so advisable
     while (itemList.firstChild) {
-        itemList.removeChild(itemList.firstChild);
-
-         checkUI()  
+        itemList.removeChild(itemList.firstChild);   
     }
+    //clear from local storage
+    localStorage.removeItem('items');
+     checkUI()  
 }
 
 
@@ -155,7 +178,7 @@ function init() {
 
 //Event listeners
 itemForm.addEventListener('submit', onAddItemSubmit);
-itemList.addEventListener('click',removeItem);
+itemList.addEventListener('click', onClickItem);
 clearBtn.addEventListener('click', clearItems);
 itemFilter.addEventListener('input', filterItems);
 document.addEventListener('DOMContentLoaded', displayItems);
